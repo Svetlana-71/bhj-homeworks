@@ -8,6 +8,9 @@ controls.addEventListener('click', function(event) {
         fontSize = event.target.classList[1];
         content.classList.remove(...content.classList.values());
         content.classList.add(fontSize);
+        let buttons = document.querySelectorAll('.font-size');
+        buttons.forEach(button => button.classList.remove('font-size_active'));
+        event.target.classList.add('font-size_active');
     }
     event.preventDefault();     
 });
