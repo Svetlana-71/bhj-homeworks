@@ -2,22 +2,23 @@ const tasksForm = document.getElementById('tasks__form');
 const tasksInput = document.getElementById('task__input');
 const tasksList = document.getElementById('tasks__list');
 tasksForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const newTask = document.createElement('div');
-    newTask.classList.add('task');
-    const taskTitle = document.createElement('div');
-    taskTitle.classList.add('task__title');
-    taskTitle.textContent = tasksInput.value;
-    newTask.appendChild(taskTitle);
-    const removeButton = document.createElement('a');
-    removeButton.classList.add('task__remove');
-    removeButton.textContent = '×';
-    newTask.appendChild(removeButton);
-    removeButton.addEventListener('click', function() {
-        newTask.remove();
-    });
-    tasksList.appendChild(newTask);
+  event.preventDefault();
+    if (!tasksInput.value.trim()) {
+        return;
+    }
+    tasksList.insertAdjacentHTML('afterbegin', `
+    <div class="task">
+        <div class="task__title">
+            ${tasksInput.value.trim()}
+        </div>
+        <a href="#" class="task__remove">&times;</a>
+    </div>
+    `);
     tasksInput.value = '';
-    tasksInput.focus();
-    tasksForm.reset();
+    tasksList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('task__remove')) {
+            event.target.parentNode.remove();
+        }
+    });
+    tasksInput.focus();   
 });
